@@ -466,9 +466,15 @@ extern int soft_i2c_gpio_scl;
 
 #define PARTS_DEFAULT \
 	"name=loader1,start=8k,size=32k,uuid=${uuid_gpt_loader1};" \
-	"name=loader2,size=984k,uuid=${uuid_gpt_loader2};" \
-	"name=esp,size=128M,bootable,uuid=${uuid_gpt_esp};" \
-	"name=system,size=-,uuid=${uuid_gpt_system};"
+	"name=loader2,size=2008k,uuid=${uuid_gpt_loader2};" \
+	"name=scr,size=1M,bootable,uuid=${uuid_gpt_esp};" \
+	"name=persist,size=8M,uuid='7a3310b2-919e-41a4-9243-9034ea331cdf';" \
+	"name=boot-a,size=64M,uuid='3edb79b0-e93c-412f-88b5-665f17a3e209';" \
+	"name=boot-b,size=64M,uuid='120c54ab-79be-4b84-aa5d-854a8e1588da';" \
+	"name=recovery-a,size=64M,uuid='f83b3624-4070-4d16-8149-6576307fe3ab';" \
+	"name=recovery-b,size=64M,uuid='74c43862-aa90-4c3c-ab50-e9fb29a24dea';" \
+	"name=cache,size=1536M,uuid='bc77adc9-6716-485b-ab77-a8477f35c184';" \
+	"name=userdata,size=-,uuid=${uuid_gpt_system};"
 
 #define UUID_GPT_ESP "c12a7328-f81f-11d2-ba4b-00a0c93ec93b"
 
