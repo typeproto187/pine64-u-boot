@@ -646,8 +646,8 @@ void sunxi_board_init(void)
 
 #ifdef CONFIG_PINEPHONE_LEDS
 	/* PD18:G PD19:R PD20:B */
-	gpio_request(SUNXI_GPD(18), "led:green");
-	gpio_direction_output(SUNXI_GPD(18), 1);
+	gpio_request(SUNXI_GPD(19), "led:red");
+	gpio_direction_output(SUNXI_GPD(19), 1);
 #endif
 
 #ifdef CONFIG_SY8106A_POWER
