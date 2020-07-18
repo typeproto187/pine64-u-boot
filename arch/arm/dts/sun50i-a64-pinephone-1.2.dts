@@ -1,0 +1,70 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+// Copyright (C) 2020 Samuel Holland <samuel@sholland.org>
+
+/dts-v1/;
+
+#include "sun50i-a64-pinephone.dtsi"
+
+/ {
+	model = "Pine64 PinePhone (1.2)";
+	compatible = "pine64,pinephone-1.2", "allwinner,sun50i-a64";
+
+	wifi_pwrseq: wifi_pwrseq {
+		compatible = "mmc-pwrseq-simple";
+		reset-gpios = <&r_pio 0 2 GPIO_ACTIVE_LOW>; /* PL2 */
+	};
+};
+
+&backlight {
+	power-supply = <&reg_ldo_io0>;
+	/*
+	 * PWM backlight circuit on this PinePhone revision was changed since
+	 * 1.0, and the lowest PWM duty cycle that doesn't lead to backlight
+	 * being off is around 20%. Duty cycle for the lowest brightness level
+	 * also varries quite a bit between individual boards, so the lowest
+	 * value here was chosen as a safe default.
+	 */
+	brightness-levels = <
+		774  793  814  842
+		882  935  1003 1088
+		1192 1316 1462 1633
+		1830 2054 2309 2596
+		2916 3271 3664 4096>;
+	num-interpolated-steps = <50>;
+	default-brightness-level = <400>;
+};
+
+&lis3mdl {
+	interrupt-parent = <&pio>;
+	interrupts = <1 1 IRQ_TYPE_EDGE_RISING>; /* PB1 */
+};
+
+&mmc1 {
+	mmc-pwrseq = <&wifi_pwrseq>;
+};
+
+&reg_anx_vdd1v0 {
+	gpio = <&pio 3 11 GPIO_ACTIVE_HIGH>; /* PD11 */
+	enable-active-high;
+};
+
+&reg_usb0_vbus {
+	/*
+	 * ANX7688 will enable/disable USB-5V <-> DCIN switch by itself
+	 * via VBUS_CTRL pin, so no GPIO is needed here.
+	 */
+	vin-supply = <&reg_vcc5v0>;
+};
+
+&ring_indicator {
+	gpios = <&r_pio 0 6 GPIO_ACTIVE_LOW>; /* PL6 */
+};
+
+&sgm3140 {
+	flash-gpios = <&pio 2 3 GPIO_ACTIVE_HIGH>; /* PC3 */
+	enable-gpios = <&pio 3 24 GPIO_ACTIVE_HIGH>; /* PD24 */
+};
+
+&usbphy {
+	usb0_vbus_det-gpios = <&r_pio 0 9 GPIO_ACTIVE_HIGH>; /* PL9 */
+};
